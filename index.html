@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+
+<style>
+@font-face {
+  font-family: 'DINArabic';
+  src: url('./DINArabic-Regular.ttf');
+}
+</style>
+
+</head>
+
+<body style="text-align:center; font-family:sans-serif; background:#f5f5f5;">
+
+<h2>✨Poster Idul Fitri BEM MAU Putri✨</h2>
+
+<input type="text" id="name" placeholder="Masukkan nama kamu">
+<br><br>
+<button onclick="generate()">Generate</button>
+
+<br><br>
+<canvas id="canvas" width="900" height="1600"></canvas>
+<br><br>
+<button onclick="download()">Download</button>
+
+<script>
+let canvas = document.getElementById("canvas");
+let ctx = canvas.getContext("2d");
+
+function generate() {
+  const name = document.getElementById("name").value;
+
+  const img = new Image();
+  img.src = "template.png";
+
+  img.onload = function() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+    // efek bayangan
+    ctx.shadowColor = "rgba(0,0,0,0.15)";
+    ctx.shadowBlur = 2;
+
+    // tunggu font DIN Arabic ke-load
+    document.fonts.load("50px DINArabic").then(() => {
+
+      ctx.fillStyle = "white";
+      ctx.textAlign = "center";
+
+      // tulisan nama pakai DIN Arabic
+      ctx.font = "30px DINArabic"; // lebih kecil
+
+      // POSISI DI KOTAK HIJAU
+      ctx.fillText(name, canvas.width/2, 1098);
+
+    });
+  };
+}
+
+function download() {
+  const link = document.createElement("a");
+  link.download = "poster-idulfitri.png";
+  link.href = canvas.toDataURL();
+  link.click();
+}
+</script>
+
+</body>
+</html>
